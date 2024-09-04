@@ -40,9 +40,9 @@ void chip_init() {
   chip->PIN_A0 = pin_init("A0", INPUT);
   chip->PIN_A1 = pin_init("A1", INPUT);
   chip->PIN_A2 = pin_init("A2", INPUT);
-  chip->PIN_P0 = pin_init("P0", INPUT_PULLUP);
-  chip->PIN_P1 = pin_init("P1", INPUT_PULLUP);
-  chip->PIN_P2 = pin_init("P2", INPUT_PULLUP);
+  chip->PIN_P0 = pin_init("P0", OUTPUT);
+  chip->PIN_P1 = pin_init("P1", OUTPUT);
+  chip->PIN_P2 = pin_init("P2", OUTPUT);
   chip->PIN_P3 = pin_init("P3", OUTPUT);
   chip->PIN_P4 = pin_init("P4", OUTPUT);
   chip->PIN_P5 = pin_init("P5", OUTPUT);
