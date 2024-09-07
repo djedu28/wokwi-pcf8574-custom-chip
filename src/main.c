@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2022 Uri Shaked / wokwi.com
+#define __version__  "0.1.6"
 
 #include "wokwi-api.h"
 #include <stdio.h>
@@ -27,7 +28,6 @@ typedef struct {
   pin_t PIN_P7;
   uint8_t counter;
   uint8_t address;
-  bool stk;
 } chip_state_t;
 
 static bool on_i2c_connect(void *user_data, uint32_t address, bool connect);
@@ -94,7 +94,7 @@ void chip_init() {
   
   // The following message will appear in the browser's DevTools console:
   // printf("Hello from custom chip!\n");
-  printf("Hello from PCF8574 at address %x \n", chip->address);
+  printf("start PCF8574 at address %x  version %s\n", chip->address, __version__);
 }
 
 
@@ -140,6 +140,58 @@ static void update_pins(chip_state_t *chip)
     }
 }
 
+void print_pins(void *user_data){
+    chip_state_t *chip = user_data;
+    printf("print_pins %#.2x ", chip->counter);
+    unsigned int tmp;
+    for (uint8_t i = 0; i < 8; i++) {
+        switch (i)
+        {
+            case 0:
+             
+                tmp = pin_read(chip->PIN_P0);
+                printf("%x", tmp);
+            break;
+
+            case 1:
+                tmp = pin_read(chip->PIN_P0);
+                printf("%x", tmp);
+            break;
+            
+            case 2:
+                tmp = pin_read(chip->PIN_P2);
+                printf("%x", tmp);
+            break;
+
+            case 3:
+                tmp = pin_read(chip->PIN_P3);
+                printf("%x", tmp);
+            break;
+
+            case 4:
+                tmp = pin_read(chip->PIN_P4);
+                printf("-%x", tmp);
+            break;
+
+            case 5:
+                tmp = pin_read(chip->PIN_P5);
+                printf("%x", tmp);
+            break;
+
+            case 6:
+                tmp = pin_read(chip->PIN_P6);
+                printf("%x", tmp);
+            break;
+
+            case 7:
+                tmp = pin_read(chip->PIN_P7);
+                printf("%x", tmp);
+            break;
+
+        }
+    }
+    printf("\n");
+}
 bool on_i2c_connect(void *user_data, uint32_t address, bool connect) {
   return true; /* Ack */
 }
@@ -164,6 +216,7 @@ uint8_t on_i2c_read(void *user_data) {
   chip->counter |= pin_read(chip->PIN_P0);
   
   //printf("on_i2c_read %hhx \n", chip->counter);
+  print_pins(chip);
   return chip->counter;
 }
 
